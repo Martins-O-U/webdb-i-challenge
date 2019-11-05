@@ -21,6 +21,17 @@ router.get('/', (req, res)=>{
     });
 })
 
+router.get("/limit", (req, res) => {
+    db.select("*").from("accounts").orderBy(req.body.sortby).limit(req.body.limit)
+        .then(accounts => {
+            res.status(200).json(accounts)
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'this went wrong: ' + error.message });
+        })
+
+})
+
 router.get('/:id',(req,res)=>{
     db('accounts').where({id: req.params.id})
         .then(account =>{
